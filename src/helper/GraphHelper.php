@@ -37,4 +37,19 @@ class GraphHelper
             $vertex->finish = 0;
         }
     }
+
+    /**
+     * @param Graph $graph
+     * @param Vertex $source
+     */
+    public static function initializeSingleSource(Graph $graph, Vertex $source)
+    {
+        foreach ($graph->vertices as $vertex) {
+            /** @var Vertex $vertex */
+            $vertex->shortestPathEstimate = null;
+            $vertex->parent = null;
+        }
+
+        $source->shortestPathEstimate = 0;
+    }
 }
