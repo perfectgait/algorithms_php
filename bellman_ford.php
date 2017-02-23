@@ -34,7 +34,7 @@ function bellmanFord(Graph &$graph, callable $weightFunction, Vertex $source)
     for ($i = 0; $i < count($graph->vertices) - 1; $i++) {
         // Iterate over all the edges
         foreach ($graph->edges as $edge) {
-            relax($graph->vertices[$edge[0]], $graph->vertices[$edge[1]], $weightFunction);
+            GraphHelper::relax($graph->vertices[$edge[0]], $graph->vertices[$edge[1]], $weightFunction);
         }
     }
 
@@ -45,28 +45,6 @@ function bellmanFord(Graph &$graph, callable $weightFunction, Vertex $source)
     }
 
     return true;
-}
-
-/**
- * Relax an edge by comparing the destination vertex's shortest path estimate against the sources shortest path estimate
- * + the weight of the edge.  If the source's shortest path estimate + the weight of the edge is less than the
- * destination's shortest path estimate, there is a shorter path to the destination.  Because a shorter path exists, the
- * destination's shortest path estimate is updated to the value of the source's shortest path estimate + the weight of
- * the edge.
- *
- * @param Vertex $source
- * @param Vertex $destination
- * @param callable $weightFunction
- */
-function relax(Vertex $source, Vertex $destination, callable $weightFunction)
-{
-    if (!is_null($source->shortestPathEstimate)
-        && (is_null($destination->shortestPathEstimate)
-        || $destination->shortestPathEstimate > $source->shortestPathEstimate + $weightFunction($source, $destination))
-    ) {
-        $destination->shortestPathEstimate = $source->shortestPathEstimate + $weightFunction($source, $destination);
-        $destination->parent = $source;
-    }
 }
 
 $adjacencyList = [
